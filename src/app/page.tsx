@@ -12,7 +12,7 @@ export default function Home() {
   if (!isMounted) return null;
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-background dark:bg-black">
       <Header />
       
       <PreferenceModal />
@@ -20,13 +20,13 @@ export default function Home() {
       {preferences.hasCompletedOnboarding ? (
         <Dashboard />
       ) : (
-        <main className="flex flex-1 items-center justify-center p-4">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center animate-slide-up opacity-0 [animation-delay:150ms]">
-            <h2 className="text-3xl font-light tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">
-              OmniBrief <span className="text-zinc-400 dark:text-zinc-600">—</span> Foundation Set
+        <main className="md:pl-64 flex flex-1 items-center justify-center p-6">
+          <div className="mx-auto max-w-5xl flex flex-col items-center justify-center space-y-8 text-center animate-slide-up opacity-0 [animation-delay:150ms]">
+            <h2 className="font-headline text-5xl font-black uppercase tracking-tighter text-black dark:text-white sm:text-8xl leading-none">
+              OMNIBRIEF
             </h2>
-            <p className="max-w-md text-sm text-zinc-500 dark:text-zinc-400">
-              Premium, minimalist daily news digest.
+            <p className="max-w-xl font-label text-xl font-bold uppercase tracking-tight text-black/40 dark:text-white/40">
+              The Sovereign Ledger for Precision Intelligence.
             </p>
           </div>
         </main>

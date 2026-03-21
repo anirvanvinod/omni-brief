@@ -46,9 +46,10 @@ export function Dashboard() {
       
       const data = await res.json()
       setStories(data.stories || [])
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      setError(err.message || "We couldn't fetch your brief right now.")
+      const errorMessage = err instanceof Error ? err.message : "We couldn't fetch your brief right now.";
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
@@ -84,61 +85,63 @@ export function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] flex-col w-full relative pb-24">
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col w-full relative pb-24 bg-background dark:bg-black md:pl-64">
       <MarketTicker />
       
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:py-12">
-        <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-light tracking-tight text-zinc-900 dark:text-zinc-50">
-              Good Morning.
-            </h2>
-            <p className="text-lg text-zinc-500 dark:text-zinc-400">
-              Here is your daily brief, personalized for you.
-            </p>
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => fetchBrief()}
-              disabled={isLoading}
-              className="inline-flex h-10 items-center justify-center rounded-xl bg-zinc-100 px-4 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200 disabled:opacity-50 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
-            >
-              <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-              Refresh
-            </button>
+      <main className="mx-auto w-full max-w-5xl p-6 md:p-12 mb-24">
+        <section className="mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
+            <div className="space-y-4">
+              <h2 className="font-headline font-black text-5xl md:text-8xl tracking-tighter uppercase leading-none text-black dark:text-white">
+                Your Daily<br />Brief
+              </h2>
+              <p className="font-label font-bold text-xl text-primary-fixed opacity-80 uppercase tracking-tight dark:text-red-500">
+                {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} • THE PRECISION UPDATE
+              </p>
+            </div>
             
-            {supported && stories.length > 0 && (
+            <div className="flex items-center space-x-4">
               <button
-                onClick={handleListen}
-                className="inline-flex h-10 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900"
+                onClick={() => fetchBrief()}
+                disabled={isLoading}
+                className="inline-flex h-14 items-center justify-center border-4 border-black bg-white px-6 text-sm font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-black hover:text-white active:translate-x-1 active:translate-y-1 active:shadow-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black dark:text-white"
               >
-                <Headphones className="mr-2 h-4 w-4" />
-                Listen
+                <RefreshCw className={`mr-2 h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
+                UPDATE
               </button>
-            )}
+              
+              {supported && stories.length > 0 && (
+                <button
+                  onClick={handleListen}
+                  className="inline-flex h-14 items-center justify-center border-4 border-black bg-primary px-6 text-sm font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-white hover:text-black active:translate-x-1 active:translate-y-1 active:shadow-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:border-white"
+                >
+                  <Headphones className="mr-2 h-5 w-5" />
+                  LISTEN
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        </section>
 
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-20 space-y-4">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-            <p className="text-sm text-zinc-500 animate-pulse">Our AI is reading the news...</p>
+          <div className="flex flex-col items-center justify-center py-32 space-y-6">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <p className="text-lg font-black uppercase tracking-[0.3em] text-black/20 dark:text-white/20 animate-pulse">Syncing Neural Data</p>
           </div>
         ) : error ? (
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center justify-center rounded-2xl border border-red-200 bg-red-50 p-8 text-center dark:border-red-900/30 dark:bg-red-900/10"
+            className="flex flex-col items-center justify-center border-4 border-black bg-white p-12 text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black"
           >
-            <AlertCircle className="mb-3 h-8 w-8 text-red-500" />
-            <h3 className="mb-1 text-lg font-medium text-red-900 dark:text-red-400">Error</h3>
-            <p className="mb-4 text-sm text-red-700 dark:text-red-300">{error}</p>
+            <AlertCircle className="mb-6 h-12 w-12 text-error" />
+            <h3 className="mb-4 text-4xl font-black uppercase tracking-tighter text-black dark:text-white">System Failure</h3>
+            <p className="mb-10 text-xl font-bold uppercase tracking-tight text-black/40 dark:text-white/40">{error}</p>
             <button
               onClick={() => fetchBrief()}
-              className="rounded-lg bg-red-100 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50"
+              className="border-4 border-black bg-black px-10 py-5 text-sm font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-white hover:text-black active:translate-x-1 active:translate-y-1 active:shadow-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:border-white"
             >
-              Tap to try again
+              Restart Connection
             </button>
           </motion.div>
         ) : (
@@ -146,10 +149,12 @@ export function Dashboard() {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="flex flex-col space-y-6"
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
             {stories.map((story, index) => (
-              <NewsCard key={story.id || index} article={story} />
+              <div key={story.id || index} className={index === 0 ? "md:col-span-2" : ""}>
+                <NewsCard article={story} />
+              </div>
             ))}
           </motion.div>
         )}

@@ -54,9 +54,9 @@ export function WeatherWidget() {
   }
 
   return (
-    <div className="flex items-center space-x-1.5 rounded-full bg-zinc-100/50 px-2.5 py-1 dark:bg-zinc-800/50">
+    <div className="flex items-center space-x-2 border-2 border-black bg-white px-2 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
       {getWeatherIcon(weather.code)}
-      <span className="text-xs font-medium text-zinc-600 dark:text-zinc-300">{weather.temp}°</span>
+      <span className="font-mono text-xs font-black uppercase text-black dark:text-white">{weather.temp}°</span>
     </div>
   )
 }

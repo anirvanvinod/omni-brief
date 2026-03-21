@@ -21,34 +21,34 @@ export function AudioPlayer({ isVisible, isPlaying, isPaused, onTogglePlayPause,
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed bottom-6 left-1/2 z-50 w-[90%] max-w-md -translate-x-1/2"
+          className="fixed bottom-10 left-1/2 z-50 w-[95%] max-w-lg -translate-x-1/2"
         >
-          <div className="flex items-center justify-between rounded-2xl border border-zinc-200/50 bg-white/70 p-4 shadow-xl backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/70">
+          <div className="flex items-center justify-between border-4 border-black bg-white p-6 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)]">
             
             {/* Play/Pause Button */}
             <button
               onClick={onTogglePlayPause}
-              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white transition-transform hover:scale-105 active:scale-95 dark:bg-white dark:text-zinc-900"
+              className="flex h-14 w-14 flex-shrink-0 items-center justify-center border-2 border-black bg-black text-white transition-all hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none dark:border-white dark:bg-white dark:text-black"
             >
               {isPlaying && !isPaused ? (
-                <Pause className="h-5 w-5 fill-current" />
+                <Pause className="h-7 w-7 fill-current" />
               ) : (
-                <Play className="h-5 w-5 fill-current ml-1" />
+                <Play className="h-7 w-7 fill-current ml-1" />
               )}
             </button>
 
-            {/* Info and Progress (Simulated for native TTS) */}
-            <div className="mx-4 flex flex-1 flex-col">
-              <span className="flex items-center text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                <Headphones className="mr-1.5 h-3.5 w-3.5 text-blue-500" />
-                Now Playing: Your Daily Brief
+            {/* Info and Progress */}
+            <div className="mx-6 flex flex-1 flex-col">
+              <span className="mb-2 flex items-center font-mono text-xs font-black uppercase tracking-[0.2em] text-black dark:text-white">
+                <Headphones className="mr-2 h-4 w-4 text-[#FF3B30]" />
+                Neural Broadcast: ON
               </span>
-              <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+              <div className="h-4 border-2 border-black bg-[#e2e2e2] dark:border-white dark:bg-zinc-800">
                 <motion.div 
-                  className="h-full bg-blue-500 rounded-full"
+                  className="h-full bg-[#FF3B30]"
                   initial={{ width: "0%" }}
                   animate={{ width: isPlaying && !isPaused ? "100%" : "0%" }}
-                  transition={{ duration: 180, ease: "linear" }} // Simulated duration
+                  transition={{ duration: 180, ease: "linear" }}
                 />
               </div>
             </div>
@@ -56,9 +56,9 @@ export function AudioPlayer({ isVisible, isPlaying, isPaused, onTogglePlayPause,
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
+              className="flex h-10 w-10 items-center justify-center border-2 border-black bg-white text-black transition-all hover:bg-black hover:text-white dark:border-white dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
             >
-              <X className="h-5 w-5" />
+              <X className="h-6 w-6" />
             </button>
 
           </div>

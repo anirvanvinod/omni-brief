@@ -36,28 +36,15 @@ export function MarketTicker() {
   const displayTickers = [...tickerData, ...tickerData, ...tickerData]
 
   return (
-    <div className="w-full overflow-hidden border-b border-zinc-200 bg-white/50 dark:border-zinc-800 dark:bg-zinc-950/50 backdrop-blur-md">
-      <div className="flex w-max animate-marquee items-center space-x-8 py-2.5 px-4">
+    <div className="sticky top-[128px] z-30 w-full overflow-hidden whitespace-nowrap border-b-4 border-black bg-black py-3 text-white dark:border-white md:pl-64">
+      <div className="flex animate-marquee gap-12 font-label text-sm uppercase tracking-widest">
         {displayTickers.map((item, index) => (
-          <div key={`${item.symbol}-${index}`} className="flex items-center space-x-2 shrink-0">
-            <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-              {item.symbol}
+          <span key={`${item.symbol}-${index}`} className="flex gap-2">
+            {item.symbol}{" "}
+            <span className={item.isPositive ? "text-green-400" : "text-red-500"}>
+              {item.price} ({item.change})
             </span>
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">
-              {item.price}
-            </span>
-            <div className={cn(
-              "flex items-center text-xs font-medium",
-              item.isPositive ? "text-green-600 dark:text-green-500" : "text-red-600 dark:text-red-500"
-            )}>
-              {item.isPositive ? (
-                <TrendingUp className="mr-1 h-3 w-3" />
-              ) : (
-                <TrendingDown className="mr-1 h-3 w-3" />
-              )}
-              {item.change}
-            </div>
-          </div>
+          </span>
         ))}
       </div>
     </div>

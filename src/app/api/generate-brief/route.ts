@@ -84,11 +84,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(object);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Generate Brief API Error:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json({ 
       error: 'Failed to generate AI brief', 
-      details: error?.message || String(error)
+      details: errorMessage
     }, { status: 500 });
   }
 }
