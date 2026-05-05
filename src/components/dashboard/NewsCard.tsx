@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, type Variants } from 'framer-motion'
-import { Globe, FileText, Sparkles, Share } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Share } from 'lucide-react'
 import { toast } from 'sonner'
 
 export interface NewsArticle {
@@ -33,10 +32,10 @@ export function NewsCard({ article }: NewsCardProps) {
   // Handle data structure differences between Phase 3 mocks and Phase 4 AI output
   const summaryArray = Array.isArray(article.summary) ? article.summary : [article.summary]
   const eli5Text = article.eli5Version || article.eli5 || "Simplify unavailable."
-  const categoryLabel = article.categoryBadge || `🤖 ${article.category || 'News'}`
+  const categoryLabel = article.categoryBadge || `[${article.category || 'News'}]`
 
   const handleShare = async () => {
-    const shareText = `OmniBrief | ${article.headline}\n\n${summaryArray[0]}\n\n— Summarized by OmniBrief.`
+    const shareText = `OmniBrief | ${article.headline}\n\n${summaryArray[0]}\n\n- Summarized by OmniBrief.`
     
     if (navigator.share) {
       try {
@@ -63,9 +62,19 @@ export function NewsCard({ article }: NewsCardProps) {
           <span className="inline-flex items-center rounded-full border-2 border-black bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white dark:border-white">
             {categoryLabel}
           </span>
-          <span className="font-mono text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40">
-            {article.readTime}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40">
+              {article.readTime}
+            </span>
+            <button
+              type="button"
+              onClick={handleShare}
+              className="border-2 border-black bg-white p-2 text-black transition-all hover:bg-black hover:text-white active:translate-x-0.5 active:translate-y-0.5 dark:border-white dark:bg-black dark:text-white"
+              aria-label={`Share ${article.headline}`}
+            >
+              <Share className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <h3 className="mb-4 font-headline text-3xl font-black uppercase leading-none tracking-tighter text-black dark:text-white md:text-5xl">
