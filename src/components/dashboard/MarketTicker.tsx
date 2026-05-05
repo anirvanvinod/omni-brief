@@ -1,9 +1,7 @@
 "use client"
 
 import React from 'react'
-import { TrendingUp, TrendingDown } from 'lucide-react'
 import { usePreferences } from '@/hooks/usePreferences'
-import { cn } from '@/lib/utils'
 
 // Mock generator for ticker data
 const getMockTickerData = (ticker: string) => {

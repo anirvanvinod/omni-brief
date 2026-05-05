@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { RefreshCw, Headphones, AlertCircle, Loader2 } from 'lucide-react'
 import { usePreferences } from '@/hooks/usePreferences'
 import { useNativeTTS } from '@/hooks/useNativeTTS'
+import { getStaticBrief } from '@/data/briefs'
 import { MarketTicker } from './MarketTicker'
 import { NewsCard, type NewsArticle } from './NewsCard'
 import { AudioPlayer } from './AudioPlayer'
@@ -32,20 +33,8 @@ export function Dashboard() {
     
     try {
       const activeCats = preferences.categories.length > 0 ? preferences.categories : ['Tech', 'Business', 'World']
-      
-      const res = await fetch('/api/generate-brief', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categories: activeCats, tone: preferences.tone })
-      })
-
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.details || errData.error || 'Failed to fetch brief');
-      }
-      
-      const data = await res.json()
-      setStories(data.stories || [])
+      const nextStories = await getStaticBrief(activeCats, preferences.tone)
+      setStories(nextStories)
     } catch (err: unknown) {
       console.error(err)
       const errorMessage = err instanceof Error ? err.message : "We couldn't fetch your brief right now.";
@@ -96,7 +85,7 @@ export function Dashboard() {
                 Your Daily<br />Brief
               </h2>
               <p className="font-label font-bold text-xl text-primary-fixed opacity-80 uppercase tracking-tight dark:text-red-500">
-                {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} • THE PRECISION UPDATE
+                {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} / THE PRECISION UPDATE
               </p>
             </div>
             

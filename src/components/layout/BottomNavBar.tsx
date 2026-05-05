@@ -14,7 +14,7 @@ const bottomItems = [
 export function BottomNavBar() {
   return (
     <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t-4 border-black bg-white px-4 py-3 dark:border-white dark:bg-black md:hidden">
-      {bottomItems.map((item, index) => (
+      {bottomItems.map((item) => (
         <a
           key={item.name}
           href="#"
